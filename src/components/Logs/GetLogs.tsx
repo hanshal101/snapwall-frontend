@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 // Define the type for log data based on the API response
 interface ILog {
-  id: number;
-  CreatedAt: string;
-  name: string;
-  message: string;
+  time: string;
+  type: string;
+  source: string;
+  destination: string;
+  port: string;
+  protocol: string;
 }
 
 function GetLogs() {
@@ -16,8 +18,9 @@ function GetLogs() {
   // Function to fetch logs from the server
   const fetchLogs = async () => {
     try {
-      const response = await axios.get('http://localhost:6000/logs');
+      const response = await axios.get('http://192.168.200.135:8888/logs');
       setLogs(response.data);
+      console.log(response.data)
       setError(null); // Reset error state on successful fetch
     } catch (error) {
       console.error('Error fetching logs:', error);
@@ -26,37 +29,37 @@ function GetLogs() {
   };
 
   // Function to create a new log entry (POST request)
-  const createLog = async (log: Omit<ILog, 'id'>) => {
-    try {
-      const response = await axios.post('http://localhost:6000/logs', log);
-      console.log('Log created:', response.data);
-      fetchLogs(); // Refresh logs after creating a new one
-    } catch (error) {
-      console.error('Error creating log:', error);
-    }
-  };
+  // const createLog = async (log: Omit<ILog, 'id'>) => {
+  //   try {
+  //     const response = await axios.post('http://localhost:6000/logs', log);
+  //     console.log('Log created:', response.data);
+  //     fetchLogs(); // Refresh logs after creating a new one
+  //   } catch (error) {
+  //     console.error('Error creating log:', error);
+  //   }
+  // };
 
-  // Function to update an existing log entry (PUT request)
-  const updateLog = async (id: number, updatedLog: Partial<ILog>) => {
-    try {
-      const response = await axios.put(`http://localhost:6000/logs/${id}`, updatedLog);
-      console.log('Log updated:', response.data);
-      fetchLogs(); // Refresh logs after updating one
-    } catch (error) {
-      console.error('Error updating log:', error);
-    }
-  };
+  // // Function to update an existing log entry (PUT request)
+  // const updateLog = async (id: number, updatedLog: Partial<ILog>) => {
+  //   try {
+  //     const response = await axios.put(`http://localhost:6000/logs/${id}`, updatedLog);
+  //     console.log('Log updated:', response.data);
+  //     fetchLogs(); // Refresh logs after updating one
+  //   } catch (error) {
+  //     console.error('Error updating log:', error);
+  //   }
+  // };
 
-  // Function to delete a log entry (DELETE request)
-  const deleteLog = async (id: number) => {
-    try {
-      const response = await axios.delete(`http://localhost:6000/logs/${id}`);
-      console.log('Log deleted:', response.data);
-      fetchLogs(); // Refresh logs after deleting one
-    } catch (error) {
-      console.error('Error deleting log:', error);
-    }
-  };
+  // // Function to delete a log entry (DELETE request)
+  // const deleteLog = async (id: number) => {
+  //   try {
+  //     const response = await axios.delete(`http://localhost:6000/logs/${id}`);
+  //     console.log('Log deleted:', response.data);
+  //     fetchLogs(); // Refresh logs after deleting one
+  //   } catch (error) {
+  //     console.error('Error deleting log:', error);
+  //   }
+  // };
 
   useEffect(() => {
     // Fetch logs immediately on mount
@@ -103,12 +106,12 @@ function GetLogs() {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white w-full">
                   {logs.map((log) => (
-                    <tr key={log.id}>
+                    <tr key={log.time}>
                       <td className="whitespace-nowrap px-4 py-1 text-sm text-gray-700">
-                        {log.CreatedAt}
+                        {log.time}
                       </td>
                       <td className="whitespace-nowrap px-4 py-1 text-sm text-gray-700">
-                        {log.message}
+                        {log.destination} | {log.port} | {log.protocol}
                       </td>
                     </tr>
                   ))}
