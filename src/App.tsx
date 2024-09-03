@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar, { SidebarItem } from "./components/Static/Sidebar";
 import { RiTimeZoneLine } from "react-icons/ri";
 import { IoSettings } from "react-icons/io5";
