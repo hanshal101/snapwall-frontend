@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar, { SidebarItem } from "./components/Static/Sidebar";
 import { RiTimeZoneLine } from "react-icons/ri";
 import { IoSettings } from "react-icons/io5";
@@ -35,7 +35,6 @@ function App() {
             <Route path="/get-logs" element={<GetLogs />} />
             <Route path="/filter-logs" element={<FilterLogs />} />
             <Route path="/policy" element={<Policy />} />
-            {/* Add other routes here */}
           </Routes>
         </div>
       </div>

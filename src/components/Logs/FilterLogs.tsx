@@ -2,23 +2,16 @@ import React, { useState } from "react";
 
 // Define the type for an employee
 interface ILogs {
-  id: number;
-  message: string;
-  timestamp: string;
-  status: string;
+  time: string;
+  type: string;
+  source: string;
+  destination: string;
+  port: string;
+  protocol: string;
 }
 
 const allLogs: ILogs[] = [
-  // Sample logs data (same as provided)
-  {
-    id: 1,
-    message:
-      '25.1.4.132 - - [01/09/2024:18:42:45] "GET /api/v1/users HTTP/1.1" 301 162 "-" "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"',
-    timestamp: "Sep 01, 2024 18:42:45.562",
-    status:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Location_dot_blue.svg/1024px-Location_dot_blue.svg.png",
-  },
-  // ... more log entries
+  
 ];
 
 // Define the CustomDropdown component
@@ -35,7 +28,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>("");
-
+  const apikey = import.meta.env.VITE_API_URL;
   const handleSelect = (value: string) => {
     setSelected(value);
     setIsOpen(false);
@@ -143,17 +136,17 @@ function FilterLogs() {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white w-full">
                     {allLogs.map((indLog) => (
-                      <tr key={indLog.id}>
+                      <tr key={indLog.time}>
                         <td className="whitespace-nowrap px-4 py-1 text-sm text-gray-700">
-                          {indLog.timestamp}
+                          {indLog.time}
                         </td>
                         <td className="whitespace-nowrap px-4 py-1 text-sm text-gray-700 flex items-center gap-2">
                           <img
                             className="h-2 w-2 object-cover rounded-full"
-                            src={indLog.status}
+                            src={indLog.port}
                             alt="status ok"
                           />
-                          {indLog.message}
+                          {indLog.port}
                         </td>
                       </tr>
                     ))}
