@@ -9,6 +9,7 @@ import { MdPolicy } from "react-icons/md";
 import GetLogs from "./components/Logs/GetLogs";
 import FilterLogs from "./components/Logs/FilterLogs";
 import Policy from "./components/Policy/Policy";
+import Intruder from "./components/Intruder";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           <hr className="my-3" />
           <SidebarItem icon={<MdPolicy />} text="Policy" to="/policy" />
           <hr className="my-3" />
-          <SidebarItem icon={<RiTimeZoneLine />} text="ZONE" to="/zone" />
+          <SidebarItem icon={<RiTimeZoneLine />} text="Intruder" to="/intruder" />
           <hr className="my-3" />
           <SidebarItem icon={<IoSettings />} text="OS" to="/os" />
           <hr className="my-3" />
@@ -35,6 +36,7 @@ function App() {
             <Route path="/get-logs" element={<GetLogs />} />
             <Route path="/filter-logs" element={<FilterLogs />} />
             <Route path="/policy" element={<Policy />} />
+            <Route path="/intruder" element={<Intruder />} />
           </Routes>
         </div>
       </div>

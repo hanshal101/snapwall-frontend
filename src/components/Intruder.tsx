@@ -3,7 +3,7 @@ import axios from "axios";
 
 interface ILog {
   time: string;
-  severity: 'ok' | 'bad' | 'med';
+  severity: "ok" | "bad" | "med";
   type: string;
   source: string;
   destination: string;
@@ -11,23 +11,24 @@ interface ILog {
   protocol: string;
 }
 
-function FilterLogs() {
-  const [ip, setIp] = useState<string>("");
-  const [port, setPort] = useState<string>("");
+function Intruder() {
   const [logs, setLogs] = useState<ILog[]>([]);
   const [error, setError] = useState<string | null>(null);
   const logContainerRef = useRef<HTMLDivElement>(null);
+  const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true);
+  const [fetchLogsEnabled, setFetchLogsEnabled] = useState<boolean>(true);
   const apikey = import.meta.env.VITE_API_URL;
 
-  const fetchFilteredLogs = async () => {
+  const fetchLogs = async () => {
+    if (!fetchLogsEnabled) return;
+
     try {
-      const response = await axios.post(`${apikey}/logs`, {
-        ip,
-        port,
-      });
+      const response = await axios.get(`${apikey}/logs`);
       const logData = response.data;
       if (Array.isArray(logData)) {
-        setLogs(logData.slice(-100));
+        // Filter logs by severity: 'bad'
+        const filteredLogs = logData.filter((log: ILog) => log.severity === "bad");
+        setLogs(filteredLogs.slice(-100)); // Optional: Limit to the last 100 logs
       } else {
         console.error("Log data is not an array:", logData);
         setLogs([]);
@@ -40,72 +41,65 @@ function FilterLogs() {
     }
   };
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchFilteredLogs();
-  };
+  useEffect(() => {
+    fetchLogs();
+    const intervalId = setInterval(() => {
+      if (fetchLogsEnabled) {
+        fetchLogs();
+      }
+    }, 500);
 
+    return () => clearInterval(intervalId);
+  }, [fetchLogsEnabled]);
+
+  useEffect(() => {
+    if (autoScrollEnabled && logContainerRef.current) {
+      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
+    }
+  }, [logs, autoScrollEnabled]);
+
+  const toggleAutoScroll = () => {
+    setAutoScrollEnabled(!autoScrollEnabled);
+    setFetchLogsEnabled(!autoScrollEnabled);
+  };
   const getLogLevelClass = (severity: string) => {
     switch (severity) {
       case 'ok':
         return 'bg-blue-700';
       case 'bad':
-        return 'bg-yellow-700';
-      case 'med':
         return 'bg-red-700';
+      case 'med':
+        return 'bg-yellow-700';
       default:
         return 'bg-black';
     }
   };
 
-  useEffect(() => {
-    if (logContainerRef.current) {
-      logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
-    }
-  }, [logs]);
-
   return (
     <section className="mx-auto w-full px-4 py-4">
       <div className="flex flex-col w-full space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h2 className="text-lg font-semibold">Search Logs</h2>
+          <h2 className="text-lg font-semibold">Intruder Logs</h2>
           <p className="mt-1 text-sm text-gray-700">
-            Filter logs by IP and port
+            Real-time updating of logs with severity: 'bad'.
           </p>
         </div>
-      </div>
-      <div className="flex gap-3 mt-6 flex-col w-full space-y-4 md:items-center md:justify-between md:space-y-0">
-        <form onSubmit={handleSearch} className="flex w-full p-2 border border-gray-200 rounded-lg justify-center gap-5">
-          <div className="gap-3 flex">
-            <input
-              placeholder="Search IP"
-              className="border px-2 border-gray-300"
-              type="text"
-              value={ip}
-              onChange={(e) => setIp(e.target.value)}
-              name="ip_number"
-              id="ip_number"
-            />
-            <input
-              placeholder="Search Port"
-              className="border px-2 border-gray-300"
-              type="number"
-              value={port}
-              onChange={(e) => setPort(e.target.value)}
-              name="port_number"
-              id="port_number"
-            />
-          </div>
-          <button type="submit" className="p-2 bg-gray-50 border border-gray-200 rounded-lg">
-            Submit
-          </button>
-        </form>
+        <button
+          onClick={toggleAutoScroll}
+          className={`mt-4 px-4 py-2 rounded-md focus:outline-none ${
+            autoScrollEnabled
+              ? "bg-red-500 text-white hover:bg-red-600"
+              : "bg-green-500 text-white hover:bg-green-600"
+          }`}
+        >
+          {autoScrollEnabled ? "Pause Auto-Scroll" : "Resume Auto-Scroll"}
+        </button>
       </div>
 
       <div className="mt-6 flex flex-col w-full ">
         <div className="w-full">
           <div className="w-full py-2">
-            <div className="overflow-y-auto overflow-x-hidden w-full border border-gray-200 md:rounded-lg">
+            <div className="overflow-y-auto overflow-x-hidden w-full  border border-gray-200 md:rounded-lg">
               <div className="min-w-full divide-y divide-gray-200 ">
                 <div className="bg-gray-50 w-full sticky top-0 ">
                   <div className="flex w-full">
@@ -141,8 +135,8 @@ function FilterLogs() {
                       <div className="whitespace-nowrap px-4 py-1 text-sm">
                         {log.time}
                       </div>
-                      <div className={`whitespace-nowrap px-4 py-1 text-sm flex items-center`}>
-                        <div className={`h-2 w-2 rounded-full ${getLogLevelClass(log.severity)}`}></div>
+                      <div className="whitespace-nowrap px-4 py-1 text-sm">
+                      <div className={`h-2 w-2 rounded-full ${getLogLevelClass(log.severity)} `}></div>
                       </div>
                       <div className="whitespace-nowrap px-4 py-1 text-sm">
                         {log.type}
@@ -173,4 +167,4 @@ function FilterLogs() {
   );
 }
 
-export default FilterLogs;
+export default Intruder;
