@@ -3,7 +3,7 @@
 
   interface ILog {
     time: string;
-    severity:'ok' | 'bad' | 'med';
+    severity: string;
     type: string; 
     source: string;
     destination: string;
@@ -58,12 +58,12 @@
 
     const getLogLevelClass = (severity: string) => {
       switch (severity) {
-        case 'ok':
-          return 'bg-blue-700';
-        case 'bad':
-          return 'bg-red-700';
-        case 'med':
-          return 'bg-yellow-700';
+        case 'LOW':
+          return 'bg-green-600';
+        case 'HIGH':
+          return 'bg-red-600';
+        case 'MEDIUM':
+          return 'bg-yellow-400';
         default:
           return 'bg-black';
       }
@@ -132,8 +132,9 @@
                         <div className="whitespace-nowrap px-4 py-1 text-sm">
                           {log.time}
                         </div>
-                        <div className={`whitespace-nowrap px-4 py-1 text-sm flex items-center `}>
-                          <div className={`h-2 w-2 rounded-full ${getLogLevelClass(log.severity)} `}></div>
+                        <div className={`whitespace-nowrap px-4 py-1 text-sm flex items-center`}>
+                          <div className={`h-3 w-3 rounded-full ${getLogLevelClass(log.severity)} mr-2`}></div>
+                          <span className={``}>{log.severity}</span>
                         </div>
                         <div className="whitespace-nowrap px-4 py-1 text-sm">
                           {log.type}

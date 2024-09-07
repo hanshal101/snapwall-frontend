@@ -10,6 +10,7 @@ import GetLogs from "./components/Logs/GetLogs";
 import FilterLogs from "./components/Logs/FilterLogs";
 import Policy from "./components/Policy/Policy";
 import Intruder from "./components/Intruder";
+import SysInfo from "./components/SysInfo";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           <hr className="my-3" />
           <SidebarItem icon={<RiTimeZoneLine />} text="Intruder" to="/intruder" />
           <hr className="my-3" />
-          <SidebarItem icon={<IoSettings />} text="OS" to="/os" />
+          <SidebarItem icon={<IoSettings />} text="SysInfo" to="/sysinfo" />
           <hr className="my-3" />
           <SidebarItem icon={<BsTools />} text="ARCH" to="/arch" />
           <hr className="my-3" />
@@ -37,6 +38,7 @@ function App() {
             <Route path="/filter-logs" element={<FilterLogs />} />
             <Route path="/policy" element={<Policy />} />
             <Route path="/intruder" element={<Intruder />} />
+            <Route path="/sysinfo" element={<SysInfo />} />
           </Routes>
         </div>
       </div>
