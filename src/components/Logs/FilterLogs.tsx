@@ -3,7 +3,7 @@ import axios from "axios";
 
 interface ILog {
   time: string;
-  severity: 'ok' | 'bad' | 'med';
+  severity: string;
   type: string;
   source: string;
   destination: string;
@@ -21,10 +21,7 @@ function FilterLogs() {
 
   const fetchFilteredLogs = async () => {
     try {
-      const response = await axios.post(`${apikey}/logs`, {
-        ip,
-        port,
-      });
+      const response = await axios.get(`${apikey}/logs/port/${port}`);
       const logData = response.data;
       if (Array.isArray(logData)) {
         setLogs(logData.slice(-100));
@@ -47,12 +44,12 @@ function FilterLogs() {
 
   const getLogLevelClass = (severity: string) => {
     switch (severity) {
-      case 'ok':
-        return 'bg-blue-700';
-      case 'bad':
-        return 'bg-yellow-700';
-      case 'med':
-        return 'bg-red-700';
+      case 'LOW':
+        return 'bg-green-600';
+      case 'HIGH':
+        return 'bg-red-600';
+      case 'MEDIUM':
+        return 'bg-yellow-400';
       default:
         return 'bg-black';
     }
@@ -65,13 +62,13 @@ function FilterLogs() {
   }, [logs]);
 
   return (
-    <section className="mx-auto w-full px-4 py-4">
+    <section className="mt-0 w-full px-4 py-4">
       <div className="flex flex-col w-full space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
-        <div>
-          <h2 className="text-lg font-semibold">Search Logs</h2>
-          <p className="mt-1 text-sm text-gray-700">
+        <div className="flex">
+          <h2 className="text-lg font-semibold">Search Logs:</h2>
+          <span className="ml-4 mt-1 text-sm text-gray-700">
             Filter logs by IP and port
-          </p>
+          </span>
         </div>
       </div>
       <div className="flex gap-3 mt-6 flex-col w-full space-y-4 md:items-center md:justify-between md:space-y-0">
@@ -102,7 +99,7 @@ function FilterLogs() {
         </form>
       </div>
 
-      <div className="mt-6 flex flex-col w-full ">
+      <div className="mt-1 flex flex-col w-full ">
         <div className="w-full">
           <div className="w-full py-2">
             <div className="overflow-y-auto overflow-x-hidden w-full border border-gray-200 md:rounded-lg">
@@ -142,7 +139,8 @@ function FilterLogs() {
                         {log.time}
                       </div>
                       <div className={`whitespace-nowrap px-4 py-1 text-sm flex items-center`}>
-                        <div className={`h-2 w-2 rounded-full ${getLogLevelClass(log.severity)}`}></div>
+                        <div className={`h-3 w-3 rounded-full ${getLogLevelClass(log.severity)} mr-2`}></div>
+                        <span className={``}>{log.severity}</span>
                       </div>
                       <div className="whitespace-nowrap px-4 py-1 text-sm">
                         {log.type}
