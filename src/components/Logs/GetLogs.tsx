@@ -99,26 +99,26 @@
               <div className="overflow-y-auto overflow-x-hidden w-full  border border-gray-200 md:rounded-lg">
                 <div className="min-w-full divide-y divide-gray-200 ">
                   <div className="bg-gray-50 w-full sticky top-0 ">
-                    <div className="flex w-full">
-                      <div className="px-4 justify-center border flex w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                    <div className="grid grid-cols-7 font-mono w-full">
+                      <div className="px-4 border flex w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Timestamp</span>
                       </div>
-                      <div className="px-4 justify-center flex border w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                      <div className="px-4 flex border w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Severity</span>
                       </div>
-                      <div className="px-4 justify-center flex border w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                      <div className="px-4 flex border w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Type</span>
                       </div>
-                      <div className="px-4 justify-center flex border w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                      <div className="px-4 flex border w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Source</span>
                       </div>
-                      <div className="px-4 justify-center flex border w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                      <div className="px-4 flex border w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Destination</span>
                       </div>
-                      <div className="px-4 justify-center flex border w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                      <div className="px-4 flex border w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Protocol</span>
                       </div>
-                      <div className="px-4 justify-center flex border w-full py-3.5 text-left text-sm font-normal text-gray-700">
+                      <div className="px-4 flex border w-full py-3.5 text-left  font-normal text-gray-700">
                         <span>Port</span>
                       </div>
                     </div>
@@ -128,7 +128,7 @@
                     className="divide-y divide-gray-200 bg-white w-full h-[75vh] overflow-y-auto"
                   >
                     {logs.map((log, index) => (
-                      <div key={index} className={`flex justify-around w-full`}>
+                      <div key={index} className={`grid grid-cols-7 w-full`}>
                         <div className="whitespace-nowrap px-4 py-1 text-sm">
                           {log.time}
                         </div>

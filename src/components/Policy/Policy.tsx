@@ -36,7 +36,9 @@ function Policy() {
     ips: [""],
     ports: [""],
   });
-  const [selectedPolicy, setSelectedPolicy] = useState<PolicyModel | null>(null);
+  const [selectedPolicy, setSelectedPolicy] = useState<PolicyModel | null>(
+    null
+  );
 
   useEffect(() => {
     fetchPolicies();
@@ -67,7 +69,7 @@ function Policy() {
     if (selectedPolicy) {
       try {
         await axios.put(`${apikey}/policies/${policyID}`, selectedPolicy);
-        fetchPolicies(); 
+        fetchPolicies();
         closeDetailModal();
       } catch (error) {
         console.error("Error updating policy:", error);
@@ -78,7 +80,7 @@ function Policy() {
   const deletePolicy = async (policyID: number) => {
     try {
       await axios.delete(`${apikey}/policies/${policyID}`);
-      fetchPolicies(); 
+      fetchPolicies();
       closeDetailModal();
     } catch (error) {
       console.error("Error deleting policy:", error);
@@ -127,16 +129,19 @@ function Policy() {
 
   return (
     <div className="p-2 w-full flex flex-col gap-3">
-      <div className="w-full flex justify-between bg-white border border-gray-200 p-3 text-lg font-mono rounded-lg">
-        <p className="cursor-pointer border-2 border-gray-200 p-2 rounded-lg bg-red-200" onClick={openCreateModal}>Create Policy</p>
-      </div>
       <div className="w-full bg-white border border-gray-200 flex items-center gap-3 justify-center p-3 font-mono rounded-lg">
+        <p
+          className="cursor-pointer border-2 border-gray-200 text-nowrap p-2 shadow-lg rounded-lg bg-indigo-200 text-indigo-800"
+          onClick={openCreateModal}
+        >
+          Create Policy
+        </p>
         <input
           type="text"
           placeholder="search your policy id Ex:PCY1000@Dumb"
-          className="w-full focus:outline-none border border-gray-200 p-2 rounded-lg"
+          className="w-full shadow-lg focus:outline-none border border-gray-200 p-2 rounded-lg"
         />
-        <button className="p-2 border border-gray-200 bg-gray-50 rounded-lg">
+        <button className="p-2 border shadow-lg border-gray-200 bg-gray-50 rounded-lg">
           Search
         </button>
       </div>
@@ -144,17 +149,22 @@ function Policy() {
         {policies.map((policy) => (
           <div
             key={policy.ID}
-            className="bg-white rounded-lg p-3 border-2 border-gray-200 w-full h-48 cursor-pointer flex flex-col"
+            className="bg-white shadow-lg rounded-lg p-3 border-2 border-indigo-200 w-full h-48 cursor-pointer flex flex-col"
             onClick={() => openDetailModal(policy)}
           >
-            <span>Date: {policy.CreatedAt}</span>
-            <span>Name: {policy.name}</span>
-            <span>Type: {policy.type}</span>
-            <span>IPs: {policy.ips.map(ip => ip.address).join(", ")}</span>
-            <span>Ports: {policy.ports.map(port => port.number).join(", ")}</span>
+            <span className="underline font-bold">Name: {policy.name}</span>
+            <span className="font-sans text-gray-400 text-base">
+              Date: {policy.CreatedAt}
+            </span>
+            <span className=" text-base">Type: {policy.type}</span>
+            <span className=" text-base">
+              IPs: {policy.ips.map((ip) => ip.address).join(", ")}
+            </span>
+            <span className=" text-base">
+              Ports: {policy.ports.map((port) => port.number).join(", ")}
+            </span>
           </div>
         ))}
-        
       </div>
       {isCreateModalOpen && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
@@ -166,16 +176,20 @@ function Policy() {
                 placeholder="Name"
                 className="border border-gray-300 p-2 rounded-lg"
                 value={newPolicy.name}
-                onChange={(e) => setNewPolicy({ ...newPolicy, name: e.target.value })}
+                onChange={(e) =>
+                  setNewPolicy({ ...newPolicy, name: e.target.value })
+                }
               />
               <input
                 type="text"
                 placeholder="Type"
                 className="border border-gray-300 p-2 rounded-lg"
                 value={newPolicy.type}
-                onChange={(e) => setNewPolicy({ ...newPolicy, type: e.target.value })}
+                onChange={(e) =>
+                  setNewPolicy({ ...newPolicy, type: e.target.value })
+                }
               />
-    
+
               <div>
                 <label className="font-bold">IPs</label>
                 {newPolicy.ips.map((ip, index) => (
@@ -196,7 +210,7 @@ function Policy() {
                   Add IP
                 </button>
               </div>
-    
+
               <div>
                 <label className="font-bold">Ports</label>
                 {newPolicy.ports.map((port, index) => (
@@ -217,7 +231,7 @@ function Policy() {
                   Add Port
                 </button>
               </div>
-    
+
               <div className="flex justify-between mt-4">
                 <button
                   type="button"
@@ -246,13 +260,17 @@ function Policy() {
                 type="text"
                 className="border border-gray-300 p-2 rounded-lg"
                 value={selectedPolicy.name}
-                onChange={(e) => setSelectedPolicy({ ...selectedPolicy, name: e.target.value })}
+                onChange={(e) =>
+                  setSelectedPolicy({ ...selectedPolicy, name: e.target.value })
+                }
               />
               <input
                 type="text"
                 className="border border-gray-300 p-2 rounded-lg"
                 value={selectedPolicy.type}
-                onChange={(e) => setSelectedPolicy({ ...selectedPolicy, type: e.target.value })}
+                onChange={(e) =>
+                  setSelectedPolicy({ ...selectedPolicy, type: e.target.value })
+                }
               />
               <div>
                 <label className="font-bold">IPs</label>
@@ -270,7 +288,7 @@ function Policy() {
                   />
                 ))}
               </div>
-    
+
               <div>
                 <label className="font-bold">Ports</label>
                 {selectedPolicy.ports.map((port, index) => (
@@ -282,12 +300,15 @@ function Policy() {
                     onChange={(e) => {
                       const updatedPorts = [...selectedPolicy.ports];
                       updatedPorts[index].number = e.target.value;
-                      setSelectedPolicy({ ...selectedPolicy, ports: updatedPorts });
+                      setSelectedPolicy({
+                        ...selectedPolicy,
+                        ports: updatedPorts,
+                      });
                     }}
                   />
                 ))}
               </div>
-    
+
               <div className="flex justify-between mt-4">
                 <button
                   type="button"
