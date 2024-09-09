@@ -21,14 +21,14 @@ interface IPolicy {
   ports: { policy_id: number; number: string }[];
 }
 
-function Checkoutports() {
+function Checkoutports(IPS:string) {
   const [logs, setLogs] = useState<ILog[]>([]);
   const [fetchLogsEnabled] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [ports, setPorts] = useState<string[]>([]);
   const [policies, setPolicies] = useState<IPolicy[]>([]);
   const apikey = import.meta.env.VITE_API_URL;
-  const ip = "192.168.200.1";
+  const ip = IPS;
 
   const fetchLogs = async () => {
     if (!fetchLogsEnabled) return;
