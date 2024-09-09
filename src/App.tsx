@@ -13,6 +13,7 @@ import Intruder from "./components/Intruder";
 import SysInfo from "./components/SysInfo";
 import Checkout from "./components/Checkout/Checkout";
 import CheckoutIPs from "./components/Checkout/CheckoutIPs";
+import ApplicationStatus from "./components/Application/ApplicationStats";
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
           <hr className="my-3" />
           <SidebarItem icon={<BsTools />} text="Checkout" to="/checkout" />
           <hr className="my-3" />
-          <SidebarItem icon={<RiNodeTree />} text="NODE" to="/node" />
+          <SidebarItem icon={<RiNodeTree />} text="Application Status" to="/applications" />
           <hr className="my-3" />
         </Sidebar>
         <div className="p-2 w-full">
@@ -42,7 +43,7 @@ function App() {
             <Route path="/intruder" element={<Intruder />} />
             <Route path="/sysinfo" element={<SysInfo />} />
             <Route path="/checkout" element={<Checkout />}></Route>
-            <Route path="/node" element={<CheckoutIPs />} />
+            <Route path="/applications" element={<ApplicationStatus />} />
           </Routes>
         </div>
       </div>
