@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 
 interface PolicyModel {
@@ -10,14 +10,14 @@ interface PolicyModel {
   ports: { policy_id: number; number: string }[];
 }
 
-interface UpdatePolicy {
-  ID: number;
-  CreatedAt: string;
-  name: string;
-  type: string;
-  ips: string[];
-  ports: string[];
-}
+// interface UpdatePolicy {
+//   ID: number;
+//   CreatedAt: string;
+//   name: string;
+//   type: string;
+//   ips: string[];
+//   ports: string[];
+// }
 
 interface NewPolicyModel {
   name: string;
@@ -36,9 +36,9 @@ function Policy() {
     ips: [""],
     ports: [""],
   });
-  const [selectedPolicy, setSelectedPolicy] = useState<PolicyModel | null>(
-    null
-  );
+  const [selectedPolicy, setSelectedPolicy] = useState<PolicyModel | null>(null);
+  const [filteredPolicy, setFilteredPolicy] = useState<PolicyModel[]>([])
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
     fetchPolicies();
@@ -127,26 +127,32 @@ function Policy() {
     setNewPolicy({ ...newPolicy, ports: [...newPolicy.ports, ""] });
   };
 
+  useEffect(() => {
+      if (searchTerm === '') {
+          setFilteredPolicy(policies);
+      } else {
+        setFilteredPolicy(policies.filter(policy => policy.name.includes(searchTerm)));
+      }
+  }, [searchTerm, policies]);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="p-2 w-full flex flex-col gap-3">
-      <div className="w-full bg-white border border-gray-200 flex items-center gap-3 justify-center p-3 font-mono rounded-lg">
-        <p
-          className="cursor-pointer border-2 border-gray-200 text-nowrap p-2 shadow-lg rounded-lg bg-indigo-200 text-indigo-800"
-          onClick={openCreateModal}
-        >
-          Create Policy
-        </p>
-        <input
-          type="text"
-          placeholder="search your policy id Ex:PCY1000@Dumb"
-          className="w-full shadow-lg focus:outline-none border border-gray-200 p-2 rounded-lg"
-        />
-        <button className="p-2 border shadow-lg border-gray-200 bg-gray-50 rounded-lg">
-          Search
-        </button>
+      <div className="w-full flex justify-between bg-white border border-gray-200 p-3 text-lg font-mono rounded-lg">
+        <p className="cursor-pointer border-2 border-indigo-800 p-2 rounded-lg bg-indigo-200 w-full text-center" onClick={openCreateModal}>Create Policy</p>
       </div>
+      <input
+          type="text"
+          placeholder="Search Policy by name"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="mb-4 p-2 border rounded-md "
+      />
       <div className="w-full grid-cols-3 grid place-items-center gap-2 bg-white border border-gray-200 p-3 text-lg font-mono rounded-lg">
-        {policies.map((policy) => (
+        {filteredPolicy.map((policy) => (
           <div
             key={policy.ID}
             className="bg-white shadow-lg rounded-lg p-3 border-2 border-indigo-200 w-full h-48 cursor-pointer flex flex-col"
