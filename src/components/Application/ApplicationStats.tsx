@@ -39,7 +39,7 @@ function ApplicationStatus() {
 
   const fetchApplicationStatus = async () => {
     try {
-      const response = await axios.get<ApplicationStatusModel[]>(`${apikey}/applicationStatus`);
+      const response = await axios.get<ApplicationStatusModel[]>(`${apikey}/application`);
       setApplicationStatus(response.data);
       console.log(response.data);
     } catch (error) {
@@ -49,7 +49,7 @@ function ApplicationStatus() {
 
   const createApplicationStatus = async () => {
     try {
-      await axios.post(`${apikey}/applicationStatus`, newApplicationStatus);
+      await axios.post(`${apikey}/application`, newApplicationStatus);
       fetchApplicationStatus();
       closeCreateModal();
     } catch (error) {
@@ -60,7 +60,7 @@ function ApplicationStatus() {
   const updateApplicationStatus = async (applicationStatusID: number) => {
     if (selectedApplicationStatus) {
       try {
-        await axios.put(`${apikey}/applicationStatus/${applicationStatusID}`, selectedApplicationStatus);
+        await axios.put(`${apikey}/application/${applicationStatusID}`, selectedApplicationStatus);
         fetchApplicationStatus();
         closeDetailModal();
       } catch (error) {
@@ -71,7 +71,7 @@ function ApplicationStatus() {
 
   const deleteApplicationStatus = async (applicationStatusID: number) => {
     try {
-      await axios.delete(`${apikey}/applicationStatus/${applicationStatusID}`);
+      await axios.delete(`${apikey}/application/${applicationStatusID}`);
       fetchApplicationStatus();
       closeDetailModal();
     } catch (error) {
