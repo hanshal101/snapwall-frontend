@@ -11,6 +11,8 @@ import FilterLogs from "./components/Logs/FilterLogs";
 import Policy from "./components/Policy/Policy";
 import Intruder from "./components/Intruder";
 import SysInfo from "./components/SysInfo";
+import Checkout from "./components/Checkout/Checkout";
+import CheckoutIPs from "./components/Checkout/CheckoutIPs";
 
 function App() {
   return (
@@ -27,7 +29,7 @@ function App() {
           <hr className="my-3" />
           <SidebarItem icon={<IoSettings />} text="SysInfo" to="/sysinfo" />
           <hr className="my-3" />
-          <SidebarItem icon={<BsTools />} text="ARCH" to="/arch" />
+          <SidebarItem icon={<BsTools />} text="Checkout" to="/checkout" />
           <hr className="my-3" />
           <SidebarItem icon={<RiNodeTree />} text="NODE" to="/node" />
           <hr className="my-3" />
@@ -39,6 +41,8 @@ function App() {
             <Route path="/policy" element={<Policy />} />
             <Route path="/intruder" element={<Intruder />} />
             <Route path="/sysinfo" element={<SysInfo />} />
+            <Route path="/checkout" element={<Checkout />}></Route>
+            <Route path="/node" element={<CheckoutIPs />} />
           </Routes>
         </div>
       </div>
