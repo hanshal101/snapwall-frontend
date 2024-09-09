@@ -50,35 +50,51 @@ const Checkout = () => {
     };
 
     const handleCheckoutClick = (ip: string) => {
-        setSelectedIp(ip); 
+        setSelectedIp(ip);
+    };
+
+    const handleBackClick = () => {
+        setSelectedIp(null);
     };
 
     return (
         <section>
-            <h1 className="text-xl font-medium text-center">Checkout IPs through Dashboards</h1>
-            <div className="mt-2 p-5 border-grey border-2 h-screen rounded-xl flex flex-col">
-                <input
-                    type="text"
-                    placeholder="Search IPs"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="mb-4 p-2 border rounded-md"
-                />
-                <div className=" flex-wrap grid grid-cols-5 gap-4">
-                    {filteredIps.map(ip => (
-                        <div 
-                            key={ip}
-                            onClick={() => handleCheckoutClick(ip)} // Pass IP to click handler
-                            className="border-2 h-20 flex items-center justify-center hover:border-indigo-800 rounded-md hover:bg-indigo-100 duration-300 cursor-pointer"
-                        >
-                            {ip}
+            {!selectedIp ? (
+                <>
+                    <h1 className="text-xl font-medium text-center">Checkout IPs through Dashboards</h1>
+                    <div className="mt-2 p-5 border-grey border-2 h-screen rounded-xl flex flex-col">
+                        <input
+                            type="text"
+                            placeholder="Search IPs"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="mb-4 p-2 border rounded-md"
+                        />
+                        <div className="flex-wrap grid grid-cols-5 gap-4">
+                            {filteredIps.map(ip => (
+                                <div 
+                                    key={ip}
+                                    onClick={() => handleCheckoutClick(ip)} 
+                                    className="border-2 h-20 flex items-center justify-center hover:border-indigo-800 rounded-md hover:bg-indigo-100 duration-300 cursor-pointer"
+                                >
+                                    {ip}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            </div>
-            {error && <p className="text-red-500 mt-4">{error}</p>}
-            
-            {selectedIp && <Checkoutports IPS={selectedIp} />}
+                    </div>
+                    {error && <p className="text-red-500 mt-4">{error}</p>}
+                </>
+            ) : (
+                <>
+                    <button 
+                        onClick={handleBackClick} 
+                        className="mb-4 p-2 bg-blue-500 text-white rounded-md"
+                    >
+                        Back to IP List
+                    </button>
+                    <Checkoutports IPS={selectedIp} />
+                </>
+            )}
         </section>
     );
 };

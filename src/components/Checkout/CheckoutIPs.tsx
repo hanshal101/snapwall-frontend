@@ -21,7 +21,7 @@ interface IPolicy {
   ports: { policy_id: number; number: string }[];
 }
 
-function Checkoutports(IPS: any) {
+function Checkoutports({ IPS }: { IPS: string }) {
   const [logs, setLogs] = useState<ILog[]>([]);
   const [fetchLogsEnabled] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
