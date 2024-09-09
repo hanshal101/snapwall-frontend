@@ -23,7 +23,7 @@ function FilterLogs() {
     try {
       let url = "";
       if (filter === "IP") {
-        url = `${apikey}/logs/ip/${filterValue}`;
+        url = `${apikey}/logs/source/ip/${filterValue}`;
       } else if (filter === "Port") {
         url = `${apikey}/logs/port/${filterValue}`;
       }
