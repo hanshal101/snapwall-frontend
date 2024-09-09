@@ -78,7 +78,6 @@ const Checkout = () => {
             </div>
             {error && <p className="text-red-500 mt-4">{error}</p>}
             
-            {/* Conditionally render Checkoutports component */}
             {selectedIp && <Checkoutports IPS={selectedIp} />}
         </section>
     );
