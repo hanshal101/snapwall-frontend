@@ -12,7 +12,6 @@ import Policy from "./components/Policy/Policy";
 import Intruder from "./components/Intruder";
 import SysInfo from "./components/SysInfo";
 import Checkout from "./components/Checkout/Checkout";
-import CheckoutIPs from "./components/Checkout/CheckoutIPs";
 import ApplicationStatus from "./components/Application/ApplicationStats";
 
 function App() {
